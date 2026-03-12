@@ -18,30 +18,31 @@ describe('Product Utils', () => {
   });
 
   test('filterByCategory geeft alleen electronics terug', () => {
-    // TODO: Filter op category 'electronics'
-    // TODO: Check of er 2 producten terugkomen
-    // Hint: gebruik .toHaveLength(2)
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+    const result = filterByCategory(products, 'electronics');
+
+    expect(result).toHaveLength(2);
+    expect(result[0].category).toBe('electronics');
+    expect(result[1].category).toBe('electronics');
   });
 
   test('filterByCategory geeft lege array bij onbekende categorie', () => {
-    // TODO: Filter op category 'clothing' (bestaat niet)
-    // TODO: Check of de array leeg is
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+    const result = filterByCategory(products, 'clothing');
+
+    expect(result).toHaveLength(0);
   });
 
   test('searchProducts vindt producten met zoekterm', () => {
-    // TODO: Zoek naar 'bureau'
-    // TODO: Check of resultaat 1 product bevat
-    // TODO: Check of dat product 'Bureau' heet
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+    const result = searchProducts(products, 'bureau');
+
+    expect(result).toHaveLength(1);
+    expect(result[0].name).toBe('Bureau');
   });
 
   test('searchProducts is case insensitive', () => {
-    // TODO: Zoek naar 'LAPTOP' (hoofdletters)
-    // TODO: Check of het resultaat 'Laptop' bevat
-    // Hint: gebruik .toHaveLength(1)
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+    const result = searchProducts(products, 'LAPTOP');
+
+    expect(result).toHaveLength(1);
+    expect(result[0].name).toBe('Laptop');
   });
 
 });
