@@ -20,7 +20,8 @@ describe('Todo Utils', () => {
 
   test('getTodoPriority geeft low voor normale todo', () => {
     // TODO: Test of 'koffie drinken' priority 'low' krijgt
-    expect(true).toBe(false); // Deze test faalt! Vervang deze regel met je eigen test
+    const result = getTodoPriority(false)
+    expect(true).toBe(false); 
   });
 
 });
