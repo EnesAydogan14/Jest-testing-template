@@ -1,49 +1,68 @@
-import { ShoppingCart } from './ShoppingCart';
+import { ShoppingCart } from './shoppingCart';
 
 describe('ShoppingCart', () => {
+
   let cart;
 
   beforeEach(() => {
-    // TODO: Maak hier een nieuwe ShoppingCart aan
-    // Hint: cart = new ShoppingCart();
+    cart = new ShoppingCart();
   });
 
-  // VOORBEELD - Deze test is al ingevuld
-  test('VOORBEELD: nieuwe cart is leeg', () => {
-    cart = new ShoppingCart();
-    expect(cart.getItemCount()).toBe(0);
+  const product1 = { id: 1, name: 'Laptop', price: 1000 };
+  const product2 = { id: 2, name: 'Muis', price: 50 };
+
+  test('start met lege cart', () => {
+    expect(cart.items).toHaveLength(0);
   });
 
   test('addItem voegt product toe', () => {
-    // TODO: Voeg een product toe: { id: 1, name: 'Laptop', price: 999 }
-    // TODO: Check of getItemCount() nu 1 is
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+    cart.addItem(product1);
+
+    expect(cart.items).toHaveLength(1);
+    expect(cart.items[0].name).toBe('Laptop');
   });
 
-  test('addItem met quantity voegt meerdere items toe', () => {
-    // TODO: Voeg product toe met quantity 3
-    // TODO: Check of getItemCount() 3 is
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
-  });
+  test('addItem met quantity werkt correct', () => {
+    cart.addItem(product1, 3);
 
-  test('getTotal berekent juiste totaal', () => {
-    // TODO: Voeg product toe: { id: 1, name: 'Muis', price: 25 }, quantity 2
-    // TODO: Check of getTotal() 50 teruggeeft (2 x 25)
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+    expect(cart.items[0].quantity).toBe(3);
   });
 
   test('removeItem verwijdert product', () => {
-    // TODO: Voeg een product toe met id: 1
-    // TODO: Roep removeItem(1) aan
-    // TODO: Check of getItemCount() 0 is
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+    cart.addItem(product1);
+    cart.addItem(product2);
+
+    cart.removeItem(1);
+
+    expect(cart.items).toHaveLength(1);
+    expect(cart.items[0].id).toBe(2);
   });
 
-  test('clear maakt cart leeg', () => {
-    // TODO: Voeg 2 producten toe
-    // TODO: Roep clear() aan
-    // TODO: Check of getItemCount() 0 is
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+  test('getTotal berekent totaalprijs', () => {
+    cart.addItem(product1, 1); // 1000
+    cart.addItem(product2, 2); // 100
+
+    const total = cart.getTotal();
+
+    expect(total).toBe(1100);
+  });
+
+  test('getItemCount telt alle items', () => {
+    cart.addItem(product1, 2);
+    cart.addItem(product2, 3);
+
+    const count = cart.getItemCount();
+
+    expect(count).toBe(5);
+  });
+
+  test('clear maakt winkelwagen leeg', () => {
+    cart.addItem(product1);
+    cart.addItem(product2);
+
+    cart.clear();
+
+    expect(cart.items).toHaveLength(0);
   });
 
 });

@@ -1,53 +1,74 @@
-import { isValidEmail, isValidPhone, isValidPostcode, validateForm } from './formValidator';
+import { 
+  isValidEmail, 
+  isValidPhone, 
+  isValidPostcode, 
+  validateForm 
+} from './formValidator';
 
 describe('Form Validator', () => {
-  let testData;
 
-  beforeEach(() => {
-    // TODO: Maak hier een testData object aan met geldige gegevens
-    // testData = {
-    //   email: 'test@example.com',
-    //   phone: '0612345678',
-    //   postcode: '1234 AB'
-    // };
+  // EMAIL TESTS
+  test('isValidEmail geeft true voor geldig email', () => {
+    expect(isValidEmail('test@email.com')).toBe(true);
   });
 
-  // VOORBEELD - Deze test is al ingevuld
-  test('VOORBEELD: isValidEmail accepteert geldig email', () => {
-    expect(isValidEmail('test@example.com')).toBe(true);
+  test('isValidEmail geeft false voor ongeldig email', () => {
+    expect(isValidEmail('testemail.com')).toBe(false);
   });
 
-  test('isValidEmail weigert email zonder @', () => {
-    // TODO: Test of 'testexample.com' false teruggeeft
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+  // PHONE TESTS
+  test('isValidPhone geeft true voor geldig 06 nummer', () => {
+    expect(isValidPhone('0612345678')).toBe(true);
   });
 
-  test('isValidPhone accepteert 06 nummer', () => {
-    // TODO: Test of '0612345678' geldig is
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+  test('isValidPhone geeft true voor geldig +31 nummer', () => {
+    expect(isValidPhone('3112345678')).toBe(true);
   });
 
-  test('isValidPhone accepteert nummer met streepjes', () => {
-    // TODO: Test of '06-1234-5678' geldig is
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+  test('isValidPhone geeft false voor ongeldig nummer', () => {
+    expect(isValidPhone('12345')).toBe(false);
   });
 
-  test('isValidPostcode accepteert postcode met spatie', () => {
-    // TODO: Test of '1234 AB' geldig is
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+  // POSTCODE TESTS
+  test('isValidPostcode accepteert 1234AB', () => {
+    expect(isValidPostcode('1234AB')).toBe(true);
   });
 
-  test('isValidPostcode accepteert postcode zonder spatie', () => {
-    // TODO: Test of '1234AB' geldig is
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+  test('isValidPostcode accepteert 1234 AB', () => {
+    expect(isValidPostcode('1234 AB')).toBe(true);
   });
 
-  test('validateForm geeft errors bij ongeldig formulier', () => {
-    // TODO: Gebruik de testData uit beforeEach
-    // TODO: Verander testData.email naar iets ongeldig
-    // TODO: Check of errors array niet leeg is
-    // Hint: Je moet eerst beforeEach invullen!
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+  test('isValidPostcode geeft false voor ongeldige postcode', () => {
+    expect(isValidPostcode('12AB')).toBe(false);
+  });
+
+  // FORM TESTS
+  test('validateForm geeft isValid true bij correcte data', () => {
+    const formData = {
+      email: 'test@email.com',
+      phone: '0612345678',
+      postcode: '1234AB'
+    };
+
+    const result = validateForm(formData);
+
+    expect(result.isValid).toBe(true);
+    expect(result.errors).toEqual([]);
+  });
+
+  test('validateForm geeft errors bij verkeerde data', () => {
+    const formData = {
+      email: 'fout',
+      phone: '123',
+      postcode: 'abcd'
+    };
+
+    const result = validateForm(formData);
+
+    expect(result.isValid).toBe(false);
+    expect(result.errors).toContain('Ongeldig email adres');
+    expect(result.errors).toContain('Ongeldig telefoonnummer');
+    expect(result.errors).toContain('Ongeldige postcode');
   });
 
 });
